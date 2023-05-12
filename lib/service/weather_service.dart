@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import '../models/weather_model.dart';
+import 'package:geocoding/geocoding.dart';
 
 //-----recuperer json depuis Api
 
@@ -7,10 +9,6 @@ class WeatherService {
   final Dio _dio = Dio();
   final String _baseUrl = 'https://api.weatherapi.com/v1/current.json';
   final List<String> cities = ['London', 'New York', 'Tokyo', 'Sydney'];
-
-  void to() {
-    fetchTemperatures();
-  }
 
   Future<List<WeatherData>> fetchTemperatures() async {
     final List<WeatherData> temperatures = [];
@@ -32,5 +30,25 @@ class WeatherService {
       ));
     }
     return temperatures;
+  }
+}
+
+List<Placemark> place = [];
+
+void getCityName() async {
+  try {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    final List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks != null && placemarks.isNotEmpty) {
+      final Placemark placemark = placemarks[0];
+      final cityName = placemark.locality;
+      print(cityName);
+    }
+  } catch (e) {
+    print(e.toString());
   }
 }

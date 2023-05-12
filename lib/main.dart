@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meteo/pages/home_page.dart';
+//import 'package:flutter_meteo/pages/loading_screen.dart';
 import 'package:flutter_meteo/pages/localisation.dart';
 
 void main() async {
@@ -29,9 +30,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const HomePage();
+    /*
+    
+    MaterialApp(
       theme: ThemeData.dark(),
-      home: LoadingScreen(),
-    );
+      home: const LoadingScreen(),
+    );*/
   }
 }
