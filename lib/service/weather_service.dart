@@ -6,7 +6,7 @@ import '../models/weather_model.dart';
 class WeatherService {
   final Dio _dio = Dio();
   final String _baseUrl = 'https://api.weatherapi.com/v1/current.json';
-  final List<String> cities = ['Paris', 'New York', 'Tokyo', 'Sydney'];
+  final List<String> cities = ['London', 'New York', 'Tokyo', 'Sydney'];
 
   void to() {
     fetchTemperatures();
