@@ -19,6 +19,7 @@ class _HomePage extends State<HomePage> {
     super.initState();
   }
 
+  String cityName = '';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -95,40 +96,40 @@ class _HomePage extends State<HomePage> {
               color: const Color.fromARGB(255, 13, 41, 125),
             ),
             Positioned(
-              top: 110,
-              left: 120,
-              right: 120,
-              child: SizedBox(
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 13, 41, 125),
-                    foregroundColor: const Color.fromARGB(255, 13, 41, 125),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      side: const BorderSide(
-                        color: Colors.white,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    'GET WEATHER',
-                    style: TextStyle(
+              left: 50,
+              right: 50,
+              bottom: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/localisation',
+                      arguments: cityName);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 13, 41, 125),
+                  foregroundColor: const Color.fromARGB(255, 13, 41, 125),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: const BorderSide(
                       color: Colors.white,
-                      fontFamily: 'Carlito',
-                      fontSize: 20,
+                      width: 2,
                     ),
-                    textAlign: TextAlign.center,
                   ),
+                ),
+                child: const Text(
+                  'GET WEATHER',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Carlito',
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
             Container(
               padding: const EdgeInsets.all(30.0),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   prefixIcon: Icon(Icons.location_city),
@@ -141,6 +142,12 @@ class _HomePage extends State<HomePage> {
                     borderSide: BorderSide.none,
                   ),
                 ),
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    cityName = value;
+                  });
+                },
               ),
             ),
           ],

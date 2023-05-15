@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class GeoWidget extends StatelessWidget {
-  const GeoWidget(this.city, this.temperature, this.localtime, {super.key});
+  const GeoWidget(this.city, this.temperature, this.localtime, this.text,
+      {super.key});
 
   final String city;
   final double temperature;
   final String localtime;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,14 @@ class GeoWidget extends StatelessWidget {
           '${temperature.toString()} °C',
         ),
         Text(
-          'text avec icon',
+          'Temperature de $city',
         ),
-        Text('city géolocalisé'),
-        Text('temperature de city geolocalise)'),
+        Text(
+          'Today is:\n $localtime',
+        ),
+        Text(
+          '$text',
+        ),
       ],
     );
   }
