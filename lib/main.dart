@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meteo/pages/home_page.dart';
+
 import 'package:flutter_meteo/pages/localisation.dart';
 
 void main() async {
@@ -16,12 +17,14 @@ void main() async {
   //   print('${temperature.city}: ${temperature.temperature}°C (${temperature.localtime})');
   // }
 
-  runApp(
-    MaterialApp(debugShowCheckedModeBanner: false, initialRoute: '/', routes: {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: '/',
+    routes: {
       '/': (context) => const HomePage(),
       '/localisation': (context) => const Localisation(),
-    }),
-  );
+    },
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,9 +32,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: LoadingScreen(),
-    );
+    return const HomePage();
   }
 }
