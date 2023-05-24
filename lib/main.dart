@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meteo/pages/home_page.dart';
-
 import 'package:flutter_meteo/pages/localisation.dart';
 
 void main() async {
