@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meteo/models/weather_model.dart';
-import 'package:flutter_meteo/pages/home_page.dart';
+
 import 'package:flutter_meteo/service/weather_service.dart';
 import 'package:flutter_meteo/view/geo_weather_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,7 +18,22 @@ class _Localisation extends State<Localisation> {
   @override
   void initState() {
     super.initState();
-    weatherdata = WeatherService().getCityName();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final cityName = ModalRoute.of(context)?.settings.arguments;
+
+    if (cityName is String) {
+      weatherdata = WeatherService().getCityFromTextField(cityName);
+    } else {
+      final cityFromGeolocalisation = WeatherService().getCityName();
+      setState(() {
+        weatherdata = cityFromGeolocalisation;
+      });
+    }
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -50,23 +65,22 @@ class _Localisation extends State<Localisation> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  //icone geolocalisation
                   IconButton(
                     onPressed: () async {
-                      //geolocalisation
+                      final cityFromGeolocalisation =
+                          WeatherService().getCityName();
+                      setState(() {
+                        weatherdata = cityFromGeolocalisation;
+                      });
                     },
                     icon: const Icon(Icons.near_me, size: 50),
                     color: Colors.blue[100],
                   ),
+                  //icon home doit afficher valeur de Textfield
                   IconButton(
-                    onPressed: () async {
-                      var typedName = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const HomePage();
-                          },
-                        ),
-                      );
+                    onPressed: () {
+                      Navigator.pop(context, '/location');
                     },
                     icon: const Icon(Icons.location_city, size: 50),
                     color: Colors.blue[100],
@@ -75,29 +89,37 @@ class _Localisation extends State<Localisation> {
               ),
             ),
           ),
-          FutureBuilder<WeatherData>(
-            future: weatherdata,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return GeoWidget(
-                  snapshot.data?.city ?? '',
-                  snapshot.data?.temperature ?? 0.0,
-                  snapshot.data?.localtime ?? '',
-                  snapshot.data?.text ?? '',
+          Positioned(
+            top: 150.0,
+            left: 60.0,
+            child: FutureBuilder<WeatherData>(
+              future: weatherdata,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return GeoWidget(
+                    snapshot.data?.city ?? '',
+                    snapshot.data?.temperature ?? 0.0,
+                    snapshot.data?.localtime ?? '',
+                    snapshot.data?.text ?? '',
+                  );
+                } else if (snapshot.hasError) {
+                  return const Text("Désolé, erreur");
+                }
+                // Spinner
+                return const Center(
+                  child: SpinKitRotatingCircle(
+                    color: Colors.white,
+                    size: 180.0,
+                  ),
                 );
-              } else if (snapshot.hasError) {
-                return const Text("Désolé, erreur");
-              }
-              // Spinner
-              return const Center(
-                child: SpinKitRotatingCircle(
-                  color: Colors.white,
-                  size: 80.0,
-                ),
-              );
-            },
+              },
+            ),
           ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        height: 210,
+        color: const Color.fromARGB(255, 13, 41, 125),
       ),
     );
   }

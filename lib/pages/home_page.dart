@@ -20,6 +20,9 @@ class _HomePage extends State<HomePage> {
   }
 
   String cityName = '';
+  //variable pour la condition pour mettre placeholder en rouge
+  bool isCityNameEmpty = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,9 +49,16 @@ class _HomePage extends State<HomePage> {
                   SizedBox(
                     width: double.infinity,
                     height: 50,
+                    //button pour afficher geolocalisation
                     child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/localisation');
+                      onPressed: () async {
+                        /* final cityFromGeolocalisation =
+                            WeatherService().getCityName();
+          */
+                        Navigator.pushNamed(
+                          context, '/localisation',
+                          // arguments: cityFromGeolocalisation
+                        );
                       },
                       icon: const Icon(Icons.arrow_circle_left, size: 50),
                       alignment: Alignment.centerLeft,
@@ -99,10 +109,18 @@ class _HomePage extends State<HomePage> {
               left: 50,
               right: 50,
               bottom: 50,
+              // button qui envoye la valeur ville vers la page localisation
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/localisation',
-                      arguments: cityName);
+                  //avec la condition si le champ est vide afficher placeholder en rouge
+                  if (cityName.isNotEmpty) {
+                    Navigator.pushNamed(context, '/localisation',
+                        arguments: cityName);
+                  } else {
+                    setState(() {
+                      isCityNameEmpty = true;
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 13, 41, 125),
@@ -129,23 +147,26 @@ class _HomePage extends State<HomePage> {
             Container(
               padding: const EdgeInsets.all(30.0),
               child: TextField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.location_city),
-                  hintText: 'city name',
+                  prefixIcon: const Icon(Icons.location_city),
+                  hintText:
+                      isCityNameEmpty ? 'City name (required)' : 'City name',
                   hintStyle: TextStyle(
-                    color: Colors.grey,
+                    color: isCityNameEmpty ? Colors.red : Colors.grey,
                   ),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     borderSide: BorderSide.none,
                   ),
                 ),
                 onChanged: (value) {
-                  print(value);
+                  //print(value);
                   setState(() {
                     cityName = value;
+                    print(cityName);
+                    isCityNameEmpty = false;
                   });
                 },
               ),

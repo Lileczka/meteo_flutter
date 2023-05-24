@@ -11,22 +11,45 @@ class GeoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '${temperature.toString()} °C',
+    return Container(
+      width: 250,
+      height: 250,
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.black,
+          width: 2,
         ),
-        Text(
-          'Temperature de $city',
-        ),
-        Text(
-          'Today is:\n $localtime',
-        ),
-        Text(
-          '$text',
-        ),
-      ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '${temperature.toString()} °C',
+            style: const TextStyle(
+              fontSize: 36,
+              fontFamily: 'Carlito',
+            ),
+          ),
+          Text(
+            'City; $city',
+            style: const TextStyle(
+              color: Colors.blue,
+              fontSize: 20,
+              fontFamily: 'Carlito',
+            ),
+          ),
+          Text(
+            'Today is:\n $localtime',
+          ),
+          Text(
+            '$text',
+          ),
+        ],
+      ),
     );
   }
 }
